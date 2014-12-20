@@ -1,0 +1,101 @@
+<html>
+<meta charset="utf-8"> 
+<title>Simplify matrix online!</title>
+<head>
+  <link rel="shortcut icon" href="http://ngusev.com//matrix/favicon.ico"/>
+  <link rel="stylesheet" type="text/css" href="matrix.css"/>
+  <script src="http://yastatic.net/jquery/2.1.1/jquery.min.js"></script>
+  <script src="matrix.js"></script>
+  <script src="globals.js"></script>
+  <script src="render.js"></script>
+  <script src="utilities.js"></script>
+  <script src="drag.js"></script>
+</head>
+<body>
+<table width="100%" height="100%">
+<tr id="quickstart"><td align="center" style="padding: 10px;">
+<h2><a href="" onclick="$('#help').toggle(); $('#quickstart').toggle(); return false;">How does it work?</a>
+<span style="width:10px; display: inline-block;"></span>
+<a href="http://en.wikipedia.org/wiki/Gaussian_elimination" >What is this for?</a>
+<span style="width:10px; display: inline-block;"></span>
+<a href="https://stepic.org/course/Linear-Algebra-Problems-and-Methods-79" >Why does it work?</a>
+</h2>
+</td>
+<td><h2><a href="" style="text-decoration: none;" onclick="$('#quickstart').hide(); return false;">&times;</a></h2></td>
+</tr>
+<tr><td>
+<div id="help" hidden="true">
+<h1>Simplify matrix online!</h1>
+<p>Drag and drop the elements of the matrix to perform elementary operations with rows or columns. Examples:</p>
+<ul>
+<li>Drag the first element of the first row and drop it to the first element of the second row. The first row will be added to the second one. (&alpha;=+1)</li>
+<li>Drag the second element of the third column to the second element of the first column. The third column will be added to the first one. (&alpha;=+1)</li>
+<li>Hold ALT to subtract instead of adding. (&alpha;=-1)</li>
+<li>Hold SHIFT to compute the multiplier &alpha; in such a way that the target element becomes zero.</li>
+<li>Hold CTRL to move the selected row or column.</li>
+<li>Enter a number on the right of a row and hit ENTER to multipy the row by this number. E.g. enter "1/2" to divide by 2.</li>
+<li>Similar for columns.</li>
+<li>Click "Edit matrix" and change the values of the elements. Then click "Lock matrix".</li>
+<li>Do not use Internet Explorer.</li>
+</ul>
+<h3><a href="" onclick="$('#help').toggle(); $('#quickstart').toggle(); return false;">OK, got it!</h3></a>
+</div>
+</td></tr>
+<tr><td height="50%">
+<div id="wrapper" style="text-align: center">    
+  <div id="root" style="display: inline-block;">
+  </div>
+</div>
+</td></tr>
+<tr><td height="30%">
+<div style="text-align: center">    
+  <div style="display: inline-block;">
+    <textarea cols="70" id="matrix-string"></textarea>
+    <p>
+      <button onclick="reload();">Load</button>
+      <span style="width:10px; display: inline-block;"></span>
+      <button id="edit" onclick="edit();">Edit matrix</button>
+      <button id="lock" onclick="lock();" hidden="true">Lock matrix</button>
+      <span style="width:10px; display: inline-block;"></span>
+      <button onclick="transpose();">Transpose</button>
+      <span style="width:10px; display: inline-block;"></span>
+      <button onclick="save();">Save</button>
+    </p>
+    <p class="edit-buttons" hidden="true">
+      <button onclick="appendRow();">More rows</button>
+      <span style="width:10px; display: inline-block;"></span>
+      <button id="edit" onclick="deleteRow();">Less rows</button>
+    </p>
+    <p class="edit-buttons" hidden="true">
+      <button onclick="appendCol();">More columns</button>
+      <span style="width:10px; display: inline-block;"></span>
+      <button onclick="deleteCol();">Less columns</button>
+    </p>
+    <p class="edit-buttons" hidden="true">
+      <label>Append identity matrix:</label>
+      <span style="width:10px; display: inline-block;"></span>
+      <button onclick="appendIdentityRight();">Right</button>
+      <span style="width:10px; display: inline-block;"></span>
+      <button onclick="appendIdentityBottom();">Bottom</button>
+      <span style="width:10px; display: inline-block;"></span>
+      <button onclick="appendIdentityBoth();">Both</button>
+    </p>
+  </div>
+</div>
+
+<div class="credits credits-center">Created by Nikolay Gusev.</div>
+</td></tr>
+<tr><td valign="bottom" align="center"><div height="100%">
+  Created by Nikolay Gusev, 2014.
+</div></td></tr>
+</table>
+<script>
+  document.onkeydown = keyPress;
+  root = $('<table id="matrix-root" cellspacing="0" cellpadding="0"></div>');
+  $('#root').append(root);
+  $('#matrix-string').val('[[1,3,1,9],[1,1,-1,1],[3,11,5,35]]');
+  updateMatrixFromTextarea();
+  renderUI();
+</script>
+</body>
+</html>
