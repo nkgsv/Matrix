@@ -66,10 +66,16 @@ function toFrac(a) {
       wrk = [wrk, '1'];
     }
     var numerator = (wrk[0].length > 0) ? parseInt(wrk[0]) : 1;
+    if (isNaN(numerator)) {
+      numerator = 0;
+    }
     if (wrk[1].length == 0) {
       wrk[1] = '1';
     }
     var denominator = parseInt(wrk[1]);
+    if (isNaN(denominator)) {
+      denominator = 1;
+    }
     var frac = [numerator, denominator];
     normalize(frac);
     return frac;
@@ -198,7 +204,7 @@ function Matrix() {
   };
   this.copy = function(B) {
     this.loadArray(B.array());
-  }
+  };
   this.appendRow = function() {
     var n = this.cols();
     var row = [];
@@ -206,19 +212,19 @@ function Matrix() {
       row.push(toFrac(0));
     }
     A.push(row);
-  }
+  };
   this.deleteRow = function() {
     var m = this.rows();
     if (m == 1) return;
     A.splice(m - 1, 1);
-  }
+  };
   this.appendCol = function() {
     var n = this.cols();
     var m = this.rows();
     for (var i = 1; i <= m; i++) {
       A[i - 1].push(toFrac(0));
     }
-  }
+  };
   this.deleteCol = function() {
     var m = this.rows();
     var n = this.cols();
@@ -226,7 +232,7 @@ function Matrix() {
     for (var i = 1; i <= m; i++) {
       A[i - 1].splice(n - 1, 1);
     }
-  }
+  };
   this.appendIdentityRight = function() {
     var m = this.rows();
     var n = this.cols();
@@ -236,7 +242,7 @@ function Matrix() {
         A[i - 1].push(toFrac((i == j) ? 1 : 0));
       }
     }
-  }
+  };
   this.appendIdentityBottom = function() {
     var m = this.rows();
     var n = this.cols();
@@ -247,7 +253,7 @@ function Matrix() {
       }
       A.push(row);
     }
-  }
+  };
   this.appendIdentityBoth = function() {
     var m = this.rows();
     var n = this.cols();
@@ -264,5 +270,27 @@ function Matrix() {
       }
       A.push(row);
     }
-  }
+  };
+  this.multiplyRight = function(src, x) {
+    for (var i = 1; i <= this.rows(); i++) {
+      var tmp = toFrac(0);
+      for (var j = 1; j <= this.cols(); j++) {
+        var wrk = mul(A[i - 1][j - 1], x[j - 1]);
+        tmp = add(tmp, wrk);
+      }
+      A[i - 1][src - 1] = tmp;
+    }
+  };
+  this.multiplyLeft = function(src, x) {
+    var row = [];
+    for (var j = 1; j <= this.cols(); j++) {
+      var tmp = toFrac(0);
+      for (var i = 1; i <= this.rows(); i++) {
+        var wrk = mul(A[i - 1][j - 1], x[i - 1]);
+        tmp = add(tmp, wrk);
+      }
+      row.push(tmp)
+    }
+    A[src - 1] = row;
+  };
 }
