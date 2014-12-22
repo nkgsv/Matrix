@@ -16,6 +16,6 @@ Drag and drop the elements of the matrix to perform elementary operations with r
 
 # License
 MIT. 
-(See LICENCE.txt)
+(See LICENSE.txt)
 
 [1]:http://ngusev.com/matrix
