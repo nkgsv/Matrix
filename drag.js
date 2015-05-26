@@ -8,11 +8,12 @@ function dragStart(ev) {
   } else {
     sigma = 1;
   }
+  ev.originalEvent.dataTransfer.setData('text/plain', ''); // FF ignores DragStart events that don't do this
   return true;
 }
 
 function dragEnter(ev) {
-  var from = ev.target.getAttribute('id');
+  var from = ev.target.nodeName === 'DIV' ? ev.target.getAttribute('id') : ev.target.parentNode.getAttribute('id');
   var ij = from.split('-');
   to_i = parseInt(ij[0]);
   to_j = parseInt(ij[1]);
@@ -51,6 +52,12 @@ function dragOver(ev) {
 }
 
 function dragLeave(ev) {
+  if(ev.target.nodeName === '#text') {
+    return; // Prevent FF from firing this event when leaving text nodes inside divs
+  }
+  if(ev.relatedTarget && ev.relatedTarget.nodeName === '#text' && ev.relatedTarget.parentNode === ev.target) {
+    return; // Prevent FF from firing this event when 'leaving' a div for the text node inside it
+  }
   var from = ev.target.getAttribute('id');
   var ij = from.split('-');
   to_i = parseInt(ij[0]);
