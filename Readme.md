@@ -18,4 +18,4 @@ Drag and drop the elements of the matrix to perform elementary operations with r
 MIT. 
 (See LICENSE.txt)
 
-[1]:http://ngusev.com/matrix
+[1]:http://nkgsv.github.io/Matrix/
